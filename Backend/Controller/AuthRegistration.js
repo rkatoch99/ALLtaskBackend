@@ -84,13 +84,18 @@ exports.AuthLogin= async(req,res, next)=>{
 
 
        //signing token with user id
-       var token = jwt.sign({
+       const token = jwt.sign({
         id: user.id
       }, process.env.API_SECRET, {
-        expiresIn: 86400
+        expiresIn: "1h"
       });
 
-      //responding to client request with user profile success message and  access token .
+
+      // save the user token
+
+      user.token=token
+
+      //responding request with user profile success message and  access token .
       res.status(200)
         .send({
           user: {
